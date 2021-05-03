@@ -1,0 +1,16 @@
+html {
+    min-height: 100%;
+    min-width: 100%;
+    /* background-color: #252526; */
+    /* background-color: #343a40; */
+    background-color: rgb(30, 30, 30);
+    color: white;
+    padding: 3rem 0;
+}
+
+.wrapper {
+    margin: auto;
+    width: auto;
+    text-align: center;
+    font-family: sans-serif;
+}
