@@ -1,26 +1,29 @@
-tr {
-    height: 70px;
+input {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border: none;
+    background: transparent;
+    color: white;
+    border-bottom: 1px solid rgb(136, 136, 136);
+    width: 300px;
+    font-size: 20px;
 }
 
-table {
-    border-collapse: collapse;
-    width: 70%;
-    text-align: left;
-    text-indent: 20px;
+input:focus {
+    border-bottom: 1px solid white;
+    outline: none;
 }
 
-.acc-table {
-    margin: auto;
-}
-
-.acc-header {
-    height: 40px;
+label {
+    display: inline-block;
+    width: 140px;
     font-size: 20px;
 }
 
 .acc-row {
     background-color: rgb(15, 15, 15);
     color: rgb(150, 150, 150);
+    font-size: 20px;
 }
 
 .acc-row:hover {
@@ -45,12 +48,38 @@ table {
     text-indent: 0;
 }
 
-.acc-mg:hover {
+.acc-mg:hover, .acc-del:hover {
     cursor: pointer;
 }
 
-.col1 { width: 8%; }
-.col2 { width: 20%; }
-.col3 { width: 33%; }
-.col4 { width: 27%; }
-.col5 { width: 12%; }
+.acc-detail {
+    text-indent: 0;
+}
+
+.acc-detail-off {
+    display: none;
+}
+
+.acc-detail-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.acc-detail-index {
+    display: flex;
+    width: 20%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.acc-detail-info {
+    width: 65%;
+}
+
+.acc-detail-buttons {
+    width: 15%
+}

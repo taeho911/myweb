@@ -14,3 +14,19 @@ html {
     text-align: center;
     font-family: sans-serif;
 }
+
+.btn {
+    border: 1px solid white;
+    color: white;
+    border-radius: 50px;
+    background: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.btn:hover {
+    background: white;
+    color: black;
+}

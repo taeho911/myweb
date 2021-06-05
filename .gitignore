@@ -2,3 +2,4 @@ bk/
 front/node_modules/
 # front/dist/
 front/bk/
+front/src/images/*.pptx

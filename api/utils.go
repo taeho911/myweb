@@ -2,27 +2,33 @@ package api
 
 import (
 	"io"
+	"log"
 	"io/ioutil"
-	"fmt"
+	"net/http"
 	"encoding/json"
 )
 
 func parseRequestBody(body io.ReadCloser, obj interface{}) (interface{}, error) {
-	fmt.Println("body:", body)
 	byteArr, err := ioutil.ReadAll(body)
 	defer body.Close()
 	if err != nil {
-		fmt.Println("1", err)
-		return nil, err
+		return obj, err
 	}
-
 	err = json.Unmarshal(byteArr, &obj)
 	if err != nil {
-		fmt.Println("2", err)
-		return nil, err
+		return obj, err
 	}
-
 	return obj, nil
+}
+
+func writeEmptyJsonOnRes(w http.ResponseWriter) bool {
+	data, err := json.Marshal("{}")
+	if err != nil {
+		log.Println("Failed to write empty json ...")
+		return false
+	}
+	w.Write(data)
+	return true
 }
 
 

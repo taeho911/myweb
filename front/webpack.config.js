@@ -19,8 +19,9 @@ var htmlRule = { test: /\.html$/, loader: 'html-loader', options: { minimize: fa
 module.exports = {
     mode: 'development',
     entry: {
-        index: './src/index.js',
-        acc: './src/acc.js'
+        index: './src/Index.js',
+        acc: './src/AccList.js',
+        memo: './src/MemoList.js'
     },
     output: {
         path: path.resolve(__dirname, dist),

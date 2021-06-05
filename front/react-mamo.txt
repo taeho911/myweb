@@ -1,0 +1,20 @@
+React hooks' component lifecycle tricks
+
+componentDidMount:
+    useEffect(() => {
+        // code
+    }, []);
+    * It will be run only once because of empty array of second arg.
+
+componentDidUpdate:
+    useEffect(() => {
+        // code
+    });
+    * It will be run as soon as every rendering because of no second arg.
+
+componentWillUnmount:
+    useEffect({
+        // code
+        return <callback function>
+    });
+    * Callback function will be run cleanup time.
