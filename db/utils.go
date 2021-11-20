@@ -1,11 +1,12 @@
 package db
 
 import (
-	"os"
-	"log"
-	"time"
 	"context"
+	"log"
+	"os"
 	"strings"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -14,7 +15,7 @@ import (
 
 const usernameKey string = "MONGO_USERNAME"
 const passwordKey string = "MONGO_PASSWORD"
-const database string = "taeho"
+const database string = "myweb"
 
 func getClient() (*mongo.Client, context.Context, context.CancelFunc) {
 	username := os.Getenv(usernameKey)
@@ -30,7 +31,7 @@ func getClient() (*mongo.Client, context.Context, context.CancelFunc) {
 	if err != nil {
 		log.Panicln("Error: Failed to create database client")
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	err = client.Connect(ctx)
 	if err != nil {
 		log.Panicln("Error: Failed to connect to database")

@@ -13,7 +13,7 @@ go
 $ ./go.sh build
 ```
 
-* Caution: It is built using $GOPATH so you need to place this project under your $GOPATH/src
+* Caution: If you use go version lower than 1.16, it would be built using $GOPATH so you need to place this project under your $GOPATH/src
 
 ## How to start
 

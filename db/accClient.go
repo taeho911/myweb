@@ -11,7 +11,7 @@ import (
 const accCollection string = "acc"
 
 type Account struct {
-	Id    float64  `bson:"_id,omitempty" json:"_id,string,omitempty"`
+	Id    int32    `bson:"_id,omitempty" json:"_id,string,omitempty"`
 	Title string   `bson:"title,omitempty" json:"title,omitempty"`
 	Url   string   `bson:"url,omitempty" json:"url,omitempty"`
 	Uid   string   `bson:"uid,omitempty" json:"uid,omitempty"`
@@ -31,13 +31,13 @@ func AccFindAll() []Account {
 	opts := options.Find().SetSort(bson.D{{"_id", 1}})
 	cursor, err := coll.Find(ctx, document, opts)
 	if err != nil {
-		log.Panic("Failed to find all - 1 ...")
+		log.Println("Failed to find all - 1 ...")
 		return nil
 	}
 	defer cursor.Close(ctx)
 	var result []Account
 	if err = cursor.All(ctx, &result); err != nil {
-		log.Panic("Failed to find all - 2 ...")
+		log.Println("Failed to find all - 2 ...")
 		return nil
 	}
 	return result
@@ -47,10 +47,10 @@ func AccInsertOne(acc Account) *mongo.InsertOneResult {
 	client, ctx, cancel := getClient()
 	defer delClient(client, ctx, cancel)
 	coll := client.Database(database).Collection(accCollection)
-	acc.Id = issueNextSeq(coll, ctx).(float64)
+	acc.Id = issueNextSeq(coll, ctx).(int32)
 	result, err := coll.InsertOne(ctx, acc)
 	if err != nil {
-		log.Panic("Failed to insert ...")
+		log.Println("Failed to insert ...")
 		return nil
 	}
 	return result
@@ -64,13 +64,13 @@ func AccUpdateOne(acc Account) *mongo.UpdateResult {
 	update := bson.M{"$set": acc}
 	result, err := coll.UpdateOne(ctx, filter, update)
 	if err != nil {
-		log.Panic("Failed to update one ...")
+		log.Println("Failed to update one ...")
 		return nil
 	}
 	return result
 }
 
-func AccDeleteOne(id float64) *mongo.DeleteResult {
+func AccDeleteOne(id int32) *mongo.DeleteResult {
 	client, ctx, cancel := getClient()
 	defer delClient(client, ctx, cancel)
 	coll := client.Database(database).Collection(accCollection)

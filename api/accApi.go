@@ -1,11 +1,11 @@
 package api
 
 import (
+	"encoding/json"
 	"log"
+	"myweb/db"
 	"net/http"
 	"path/filepath"
-	"encoding/json"
-	"myweb/db"
 )
 
 func addAccEndpoints() {
@@ -26,13 +26,15 @@ func accListHandler(w http.ResponseWriter, r *http.Request) {
 	result := db.AccFindAll()
 	if result == nil {
 		log.Println("Result is nil ...")
+		return
+	} else {
+		data, err := json.Marshal(result)
+		if err != nil {
+			log.Println("Failed to marshal result :", err)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(data)
 	}
-	data, err := json.Marshal(result)
-	if err != nil {
-		log.Println("Failed to marshal result :", err)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(data)
 }
 
 func accCreateHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,21 +54,22 @@ func accCreateHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Failed to insert one ...")
 			writeEmptyJsonOnRes(w)
 			return
+		} else {
+			// insertedID, ok := result.InsertedID.(float64)
+			// if !ok {
+			// 	fmt.Println(result.InsertedID, "cannot be converted to float64")
+			// 	writeEmptyJsonOnRes(w)
+			// 	return
+			// }
+			acc.Id = result.InsertedID.(int32)
+			data, err := json.Marshal(acc)
+			if err != nil {
+				log.Println("Failed to marshal data ...")
+				writeEmptyJsonOnRes(w)
+				return
+			}
+			w.Write(data)
 		}
-		// insertedID, ok := result.InsertedID.(float64)
-		// if !ok {
-		// 	fmt.Println(result.InsertedID, "cannot be converted to float64")
-		// 	writeEmptyJsonOnRes(w)
-		// 	return
-		// }
-		acc.Id = result.InsertedID.(float64)
-		data, err := json.Marshal(acc)
-		if err != nil {
-			log.Println("Failed to marshal data ...")
-			writeEmptyJsonOnRes(w)
-			return
-		}
-		w.Write(data)
 	} else {
 		log.Println(r.Host, "sent not POST request ...")
 	}

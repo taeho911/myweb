@@ -200,6 +200,16 @@ function fetchAccList() {
             );
             ReactDOM.render(elem, document.getElementById('root'));
         })
+        .catch(err => {
+            console.log("No data");
+            let elem = (
+                <React.Fragment>
+                    <AccList accList={[]}/>
+                    <Home/>
+                </React.Fragment>
+            );
+            ReactDOM.render(elem, document.getElementById('root'));
+        });
 }
 
 export default AccList;

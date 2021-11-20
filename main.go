@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	port := flag.Int("p", 911, "Port number")
+	port := flag.Int("p", 80, "Port number")
 	flag.Parse()
 	api.Start(*port)
 }

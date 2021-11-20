@@ -5,6 +5,7 @@ SUBCMD=$2
 [ -z ${SUBCMD} ] && SUBCMD="null"
 APP="myweb"
 CMDS=(build run)
+CURRENTDIR=$(pwd)
 
 errorlog() {
     MSG=$1
@@ -13,14 +14,18 @@ errorlog() {
 }
 
 buildback() {
-    cd ${GOPATH} \
-        && go install ${APP} \
-        && cp ${GOPATH}\\bin\\${APP}.exe ${HOME}\\bin\\${APP}.exe \
-        || errorlog "${APP} is failed to build ..."
+    # go 1.16 이전
+    # cd ${GOPATH} \
+    #     && go install ${APP} \
+    #     && cp ${GOPATH}\\bin\\${APP}.exe ${HOME}\\bin\\${APP}.exe \
+    #     || errorlog "${APP} is failed to build ..."
+
+    go install || errorlog "${APP} is failed to build ..."
 }
 
 buildfront() {
-    cd ${GOPATH}\\src\\${APP}\\front \
+    cd front \
+        && npm install \
         && npm run build \
         || ./node_modules/.bin/webpack \
         || errorlog "${APP}/front is failed to build ..."
@@ -31,8 +36,9 @@ cleanStatic() {
 }
 
 distribute() {
+    cd ${CURRENTDIR}
     [ -d ${HOME}\\www\\${APP}\\static ] || mkdir -p ${HOME}\\www\\${APP}\\static
-    cp -r ${GOPATH}\\src\\${APP}\\front\\dist\\. ${HOME}\\www\\${APP}\\static
+    cp -r front\\dist\\. ${HOME}\\www\\${APP}\\static
 }
 
 run() {
