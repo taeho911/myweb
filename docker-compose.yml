@@ -29,6 +29,9 @@ services:
     depends_on:
       - database
     container_name: myweb
+    environment:
+      - DB_HOST: mongo
+      - DB_PORT: 27017
     ports:
       - 80:80
     networks:

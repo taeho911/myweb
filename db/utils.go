@@ -42,11 +42,12 @@ func getClient() (*mongo.Client, context.Context, context.CancelFunc) {
 		sb.WriteString("?authSource=admin")
 	}
 	connectionURL := sb.String()
+	log.Println("connectionURL =", connectionURL)
 	client, err := mongo.NewClient(options.Client().ApplyURI(connectionURL))
 	if err != nil {
 		log.Panicln("Error: Failed to create database client")
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	err = client.Connect(ctx)
 	if err != nil {
 		log.Panicln("Error: Failed to connect to database")
