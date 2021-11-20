@@ -1,0 +1,65 @@
+version: "3.9"
+services:
+  database:
+    image: mongo:focal
+    container_name: mongo
+    networks:
+      - database
+    volumes:
+      - ~/data/db:/data/db:rw
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 256M
+        reservations:
+          cpus: 0.25
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
+        window: 30s
+
+  myweb:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: myweb:latest
+    depends_on:
+      - database
+    container_name: myweb
+    ports:
+      - 80:80
+    networks:
+      - database
+      - application
+    volumes:
+      - ./logs:/mnt/logs:rw
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 256M
+        reservations:
+          cpus: 0.25
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
+        window: 30s
+
+networks:
+  database:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24
+  application:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.2.0/24

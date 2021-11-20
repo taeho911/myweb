@@ -1,0 +1,5 @@
+logs
+**/logs
+**/*.md
+**/node_modules
+*.sh
