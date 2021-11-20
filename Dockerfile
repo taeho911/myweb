@@ -7,7 +7,7 @@ RUN apk add --no-cache nodejs npm \
     && cd front \
     && npm install \
     && npm run build \
-    && mv dist ${HOME}/www/myweb/static \
+    && mv dist/* ${HOME}/www/myweb/static \
     && rm -f api db main.go go.mod go.sum
 VOLUME /mnt/logs
 CMD sh -c "myweb 2>&1 | tee -a /mnt/logs/myweb.log"

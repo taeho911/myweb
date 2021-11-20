@@ -13,19 +13,34 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-const usernameKey string = "MONGO_USERNAME"
-const passwordKey string = "MONGO_PASSWORD"
-const database string = "myweb"
+const (
+	hostKey     string = "DB_HOST"
+	portKey     string = "DB_PORT"
+	usernameKey string = "DB_USERNAME"
+	passwordKey string = "DB_PASSWORD"
+	database    string = "myweb"
+)
 
 func getClient() (*mongo.Client, context.Context, context.CancelFunc) {
+	host := os.Getenv(hostKey)
+	port := os.Getenv(portKey)
 	username := os.Getenv(usernameKey)
 	password := os.Getenv(passwordKey)
 	var sb strings.Builder
 	sb.WriteString("mongodb://")
-	sb.WriteString(username)
+	if username != "" && password != "" {
+		sb.WriteString(username)
+		sb.WriteString(":")
+		sb.WriteString(password)
+		sb.WriteString("@")
+	}
+	sb.WriteString(host)
 	sb.WriteString(":")
-	sb.WriteString(password)
-	sb.WriteString("@localhost:27017/?authSource=admin")
+	sb.WriteString(port)
+	sb.WriteString("/")
+	if username != "" && password != "" {
+		sb.WriteString("?authSource=admin")
+	}
 	connectionURL := sb.String()
 	client, err := mongo.NewClient(options.Client().ApplyURI(connectionURL))
 	if err != nil {
